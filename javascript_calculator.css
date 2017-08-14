@@ -1,0 +1,66 @@
+.w3-button {
+  width: 55px;
+  height: 40px;
+  box-shadow: 7px 7px 5px black;
+  transition: box-shadow, height 0.2s;
+}
+
+.w3-button:active {
+  box-shadow: 4px 4px 3px grey;
+  height: 38px;
+  width: 53px;
+}
+
+.w3-row {
+  height: 50px;
+}
+
+.w3-card {
+  width: 275px;
+  height: 360px;
+  border-radius: 15px;
+}
+
+header h1 {
+  color: black;
+  font-family: "Bowlby One SC";
+  font-size: 15px;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: uppercase;
+}
+
+.w3-row .w3-yellow {
+  margin: 20px;
+  padding: 20px;
+}
+
+.screendisplay {
+  width: 245px;
+  height: 50px;
+  background-color: #a1ad90;
+  border: 1px solid black;
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  text-align: right;
+}
+
+#mainline {
+  display: block;
+  height: 66%;
+  width: 245px;
+  padding: 3px;
+  font-size: 25px;
+  overflow: hidden;
+}
+
+#subline {
+  display: block;
+  height: 33%;
+  width: 245px;
+  padding: 3px;
+  font-size: 10px;
+  overflow: hidden;
+}

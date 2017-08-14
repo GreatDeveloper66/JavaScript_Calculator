@@ -1,0 +1,77 @@
+$button_width: 55px
+$button_height: 40px
+$button_height_active: $button_height - 2px
+$button_width_active: $button_width - 2px
+
+$app_width: 275px
+$app_height: 360px
+$display_width: 245px
+$display_height:50px
+
+$mainline_height: 66%
+$subline_height: 33%
+$mainline_font_size: 10px
+$subline_font_size: 4px
+
+
+=font-mixin($size, $family, $color, $weight, $style)
+  color: $color
+  font:
+    family: $family
+    size: $size
+    weight: $weight
+    variant: $style
+    
+=div-size($width,$height)
+  width: $width
+  height: $height
+  
+.w3-button
+  +div-size($button-width,$button-height)
+  box-shadow: 7px 7px 5px black
+  transition: box-shadow,height 0.2s 
+  
+.w3-button:active
+  box-shadow: 4px 4px 3px grey
+  height: $button_height_active
+  width: $button_width_active
+.w3-row
+  height: 50px
+  
+.w3-card
+  +div-size($app_width,$app_height)
+  border-radius: 15px
+  
+header h1
+  +font-mixin(15px,'Bowlby One SC',black,normal,normal)
+  text-transform: uppercase
+  
+.w3-row .w3-yellow
+  margin: 20px
+  padding: 20px
+  
+.screendisplay
+  +div-size($display_width,$display_height)
+  background-color: rgba(161, 173, 144, 1)
+  border: 1px solid black
+  margin: auto
+  margin-top: 5px
+  margin-bottom: 5px
+  border-radius: 5px
+  text-align: right
+  
+#mainline
+  display: block
+  height: $mainline_height
+  width: $display_width
+  padding: 3px
+  font-size: 25px
+  overflow: hidden
+  
+#subline
+  display: block
+  height: $subline_height
+  width: $display-width
+  padding: 3px
+  font-size: 10px
+  overflow: hidden
