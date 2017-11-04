@@ -147,7 +147,8 @@ var closingBracket = function() {
 };
 
 var equals = function() {
-  mainStr = subStr = Math.round(eval(mainStr.replace("X","*"))*1000)/1000;
+  mainStr = subStr = eval(mainStr.replace("X","*"));
+  mainStr = subStr.toString();
   display(subStr, mainStr);
 };
 
