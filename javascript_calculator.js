@@ -1,6 +1,8 @@
 //most important global variables
 var mainStr = "0";
 var subStr = "0";
+var numbers = [];
+var operators = [];
 
 
 
@@ -9,35 +11,45 @@ String.prototype.reverse = function() {
   return this.split("").reverse().join("");
 };
 
-//this function finds first index in string containing opertor symbol
-String.prototype.index = function() {
-  return this.search(/[\+-\/()X]/);
+//this function finds first index in string containing opertor symbol except decimal point
+String.prototype.symbolIndex = function() {
+  return this.search(/[\+-X\/]/);
 };
 
-//this function shaves off first number and operator in string
+//this function finds the first index containing a digit
+String.prototype.numIndex = function(){
+  return this.search(/[\d]/);
+}
+
+//this function shaves off first number in string
 String.prototype.shaveNum = function() {
-  if (this.index() === -1) {
+  if (this.symbolIndex() === -1) {
     return "0";
   }
-  return this.substring(this.index() + 1);
+  return this.substring(this.symbolIndex() + 1);
 };
 
-//this function takes first number and operator in string
-String.prototype.takeNum = function() {
-  if (this.index() == -1) {
-    return this;
+String.prototype.shaveOperator = function(){
+  if (this.numIndex === -1) {
+  	return "0";
   }
-  return this.substring(0, this.index());
-};
+  return this.substring(this.numIndex() + 1);
+}
+
 
 //this function shaves off last number and operator in string
 String.prototype.shaveLast = function() {
-  return this.reverse().shaveNum().reverse();
+  return this.reverse().shaveNum().shaveOperator().reverse();
 };
 
-//this function takes last number and operator in string
-String.prototype.takeLast = function() {
-  return this.reverse().takeNum().reverse();
+//this function returns the last character in any string
+String.prototype.lastCharacter = function() {
+  return this[this.length - 1];
+};
+
+//this function returns the first character in any string
+String.prototype.firstCharacter = function() {
+  return this[0];
 };
 
 //this function takes two strings and displays them on calculator display
@@ -46,37 +58,99 @@ var display = function(data1, data2) {
   document.getElementById("subline").innerHTML = data2;
 };
 
+
 //this function is an event handler for any numeral button
 var addNumeral = function(num){
-  if(subStr === "0"){
-    mainStr = num;
-    subStr = num;
+if(mainStr.length <= 13 && subStr.length <= 36){
+  if(mainStr === "0"){
+    mainStr = subStr = num;
+    numbers.push(num);
+   
   }
   else{
-  mainStr += num;
-  subStr += num;
+
+    if(isNaN(subStr.lastCharacter()) && subStr.lastCharacter() != "."){
+      numbers.push(num);
+      mainStr = num;
+    }
+    else {
+      numbers[numbers.length - 1] += num;
+      mainStr = numbers[numbers.length - 1];
+    }
+    
+    subStr += num;
   }
-  display(subStr, mainStr);
+  
+  display(mainStr, subStr);
+}
 };
 
 var addOperator = function(operator){
-  mainStr += operator;
-  display(subStr, mainStr);
-  subStr = "";
+if(subStr.length <= 36){
+  if(!isNaN(subStr.lastCharacter())){
+    operators.push(operator);
+  }
+  else {
+    operators[operators.length-1] += operator;
+  }
+
+  subStr += operator;
+  mainStr = numbers[numbers.length - 1];
+  display(mainStr,subStr);
+}
 };
 
+var period = function() {
+  subStr += ".";
+  display(mainStr, subStr);
+  numbers[numbers.length - 1] += ".";
+};
 
 //button event handling functions
 var acbutton = function() {
   mainStr = subStr = "0";
+  numbers = [];
   display(mainStr, subStr);
 };
 
-var cebutton = function() {
-  //returns true if char is one of the operand elements.
-  mainStr = mainStr.shaveLast();
-  subStr = mainStr.takeLast();
-  display(subStr, mainStr);
+
+//function for backspace button
+var bsbutton = function() {
+  if (subStr.length > 1) {
+    //if an operator other than .
+    if (isNaN(subStr.lastCharacter()) && subStr.lastCharacter() != ".") {
+      //more than one operator
+      if (operators[operators.length - 1].length > 1) {
+        operators[operators.length - 1] = operators[
+          operators.length - 1
+        ].substring(0, operators.length - 1);
+      } else {
+        //only one operator
+        operators.pop();
+      }
+    } else {
+      //if it is a number
+      //more than one number
+      if (numbers[numbers.length - 1].length > 1) {
+        numbers[numbers.length - 1] = numbers[numbers.length - 1].substring(
+          0,
+          numbers.length - 1
+        );
+      } else {
+        //only one number
+        numbers.pop();
+      }
+    }
+
+    subStr = subStr.substring(0, subStr.length - 1);
+    mainStr = numbers[numbers.length - 1];
+    display(mainStr, subStr);
+  } else {
+    mainStr = subStr = "0";
+    numbers = [];
+    operators = [];
+    display(mainStr, subStr);
+  }
 };
 
 var button0 = function() {
@@ -118,9 +192,6 @@ var button9 = function() {
   addNumeral("9");
 };
 
-var period = function() {
-  addOperator(".");
-};
 
 var divide = function() {
   addOperator("/");
@@ -147,9 +218,9 @@ var closingBracket = function() {
 };
 
 var equals = function() {
-  mainStr = subStr = eval(mainStr.replace("X","*"));
-  mainStr = subStr.toString();
-  display(subStr, mainStr);
+  numbers = mainStr = subStr = eval(subStr.replace("X","*")).toString();
+  operators=[];
+  display(mainStr, subStr);
 };
 
 
