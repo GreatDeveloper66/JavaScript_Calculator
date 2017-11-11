@@ -21,6 +21,10 @@ String.prototype.lastCharacter = function() {
   return this[this.length - 1];
 };
 
+String.prototype.isOperator = function(){
+	return ['+','-','X','/','(',')'].includes(this.lastCharacter());
+}
+
 //this function takes two strings and displays them on calculator display
 var display = function(data1, data2) {
   document.getElementById("mainline").innerHTML = data1;
