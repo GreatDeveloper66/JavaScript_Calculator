@@ -6,11 +6,6 @@ var operators = [];
 
 
 
-//this function reverses a string
-String.prototype.reverse = function() {
-  return this.split("").reverse().join("");
-};
-
 //this function finds first index in string containing opertor symbol except decimal point
 String.prototype.symbolIndex = function() {
   return this.search(/[\+-X\/]/);
@@ -21,35 +16,9 @@ String.prototype.numIndex = function(){
   return this.search(/[\d]/);
 }
 
-//this function shaves off first number in string
-String.prototype.shaveNum = function() {
-  if (this.symbolIndex() === -1) {
-    return "0";
-  }
-  return this.substring(this.symbolIndex() + 1);
-};
-
-String.prototype.shaveOperator = function(){
-  if (this.numIndex === -1) {
-  	return "0";
-  }
-  return this.substring(this.numIndex() + 1);
-}
-
-
-//this function shaves off last number and operator in string
-String.prototype.shaveLast = function() {
-  return this.reverse().shaveNum().shaveOperator().reverse();
-};
-
 //this function returns the last character in any string
 String.prototype.lastCharacter = function() {
   return this[this.length - 1];
-};
-
-//this function returns the first character in any string
-String.prototype.firstCharacter = function() {
-  return this[0];
 };
 
 //this function takes two strings and displays them on calculator display
@@ -130,11 +99,11 @@ var bsbutton = function() {
       }
     } else {
       //if it is a number
-      //more than one number
+      //more than one numeral
       if (numbers[numbers.length - 1].length > 1) {
         numbers[numbers.length - 1] = numbers[numbers.length - 1].substring(
           0,
-          numbers.length - 1
+          numbers.length
         );
       } else {
         //only one number
