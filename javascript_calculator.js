@@ -2,7 +2,6 @@
 var mainStr = "0";
 var subStr = "0";
 var numbers = [];
-var operators = [];
 
 
 
@@ -14,7 +13,7 @@ String.prototype.symbolIndex = function() {
 //this function finds the first index containing a digit
 String.prototype.numIndex = function(){
   return this.search(/[\d]/);
-}
+};
 
 //this function returns the last character in any string
 String.prototype.lastCharacter = function() {
@@ -23,6 +22,10 @@ String.prototype.lastCharacter = function() {
 
 String.prototype.isOperator = function(){
 	return ['+','-','X','/','(',')'].includes(this.lastCharacter());
+};
+
+function lastCharacterIsOperator() {
+	return subStr.isOperator();
 }
 
 //this function takes two strings and displays them on calculator display
@@ -42,7 +45,7 @@ if(mainStr.length <= 13 && subStr.length <= 36){
   }
   else{
 
-    if(isNaN(subStr.lastCharacter()) && subStr.lastCharacter() != "."){
+    if(lastCharacterIsOperator()){
       numbers.push(num);
       mainStr = num;
     }
@@ -55,76 +58,65 @@ if(mainStr.length <= 13 && subStr.length <= 36){
   }
   
   display(mainStr, subStr);
+  
 }
+
 };
 
 var addOperator = function(operator){
-if(subStr.length <= 36){
-  if(!isNaN(subStr.lastCharacter())){
-    operators.push(operator);
-  }
-  else {
-    operators[operators.length-1] += operator;
-  }
-
+if(subStr.length <= 36) {
   subStr += operator;
   mainStr = numbers[numbers.length - 1];
   display(mainStr,subStr);
 }
+
 };
 
+
 var period = function() {
+if(mainStr.length <= 13 && subStr.length <= 36) {
   subStr += ".";
-  display(mainStr, subStr);
   numbers[numbers.length - 1] += ".";
+  mainStr = numbers[numbers.length - 1];
+  display(mainStr, subStr);
+ 
+  }
 };
 
 //button event handling functions
 var acbutton = function() {
   mainStr = subStr = "0";
   numbers = [];
+  operators=[];
   display(mainStr, subStr);
 };
 
-
 //function for backspace button
 var bsbutton = function() {
-  if (subStr.length > 1) {
-    //if an operator other than .
-    if (isNaN(subStr.lastCharacter()) && subStr.lastCharacter() != ".") {
-      //more than one operator
-      if (operators[operators.length - 1].length > 1) {
-        operators[operators.length - 1] = operators[
-          operators.length - 1
-        ].substring(0, operators.length - 1);
-      } else {
-        //only one operator
-        operators.pop();
-      }
-    } else {
-      //if it is a number
-      //more than one numeral
-      if (numbers[numbers.length - 1].length > 1) {
-        numbers[numbers.length - 1] = numbers[numbers.length - 1].substring(
-          0,
-          numbers.length
-        );
-      } else {
-        //only one number
-        numbers.pop();
-      }
-    }
-
-    subStr = subStr.substring(0, subStr.length - 1);
-    mainStr = numbers[numbers.length - 1];
-    display(mainStr, subStr);
-  } else {
+  if (subStr.length === 1) {
+    //last character before clearing display
     mainStr = subStr = "0";
     numbers = [];
-    operators = [];
-    display(mainStr, subStr);
+  } else {
+    if (!lastCharacterIsOperator()) {
+      if (numbers[numbers.length - 1].length == 1) {
+        numbers.pop();
+        
+      } else {
+        numbers[numbers.length - 1] = numbers[numbers.length - 1].substr(
+          0,
+          numbers[numbers.length - 1].length - 1
+        );
+        
+        
+      }
+      mainStr = numbers[numbers.length -1]
+    }
+    subStr = subStr.substring(0, subStr.length - 1);
   }
+  display(mainStr, subStr);
 };
+
 
 var button0 = function() {
   addNumeral("0");
@@ -192,7 +184,6 @@ var closingBracket = function() {
 
 var equals = function() {
   numbers = mainStr = subStr = eval(subStr.replace("X","*")).toString();
-  operators=[];
   display(mainStr, subStr);
 };
 
