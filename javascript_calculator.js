@@ -36,32 +36,30 @@ var display = function(data1, data2) {
 
 
 //this function is an event handler for any numeral button
-var addNumeral = function(num){
-if(mainStr.length <= 13 && subStr.length <= 36){
-  if(mainStr === "0"){
-    mainStr = subStr = num;
-    numbers.push(num);
-   
-  }
-  else{
-
-    if(lastCharacterIsOperator()){
+var addNumeral = function(num) {
+  if (
+    subStr.length <= 36 &&
+    (mainStr.length <= 13 || lastCharacterIsOperator())
+  ) {
+    if (mainStr === "0") {
+      mainStr = subStr = num;
       numbers.push(num);
-      mainStr = num;
-    }
-    else {
-      numbers[numbers.length - 1] += num;
-      mainStr = numbers[numbers.length - 1];
-    }
-    
-    subStr += num;
-  }
-  
-  display(mainStr, subStr);
-  
-}
+    } else {
+      if (lastCharacterIsOperator()) {
+        numbers.push(num);
+        mainStr = num;
+      } else {
+        numbers[numbers.length - 1] += num;
+        mainStr = numbers[numbers.length - 1];
+      }
 
+      subStr += num;
+    }
+
+    display(mainStr, subStr);
+  }
 };
+
 
 var addOperator = function(operator){
 if(subStr.length <= 36) {
@@ -184,6 +182,9 @@ var closingBracket = function() {
 
 var equals = function() {
   numbers = mainStr = subStr = eval(subStr.replace("X","*")).toString();
+  if(mainStr.length > 36) {
+  	mainStr = subSt = "E";
+  }
   display(mainStr, subStr);
 };
 
