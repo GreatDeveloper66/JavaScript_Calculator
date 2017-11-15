@@ -41,7 +41,7 @@ var addNumeral = function(num) {
     subStr.length <= 36 &&
     (mainStr.length <= 13 || lastCharacterIsOperator())
   ) {
-    if (mainStr === "0") {
+    if (subStr === "0") {
       mainStr = subStr = num;
       numbers.push(num);
     } else {
@@ -62,17 +62,25 @@ var addNumeral = function(num) {
 
 
 var addOperator = function(operator){
+
 if(subStr.length <= 36) {
-  subStr += operator;
+  if(mainStr === "0"){
+    mainStr = numbers[0] = "0";
+  } else{
   mainStr = numbers[numbers.length - 1];
-  display(mainStr,subStr);
+  }
 }
 
+subStr += operator;
+display(mainStr,subStr);
 };
 
 
 var period = function() {
 if(mainStr.length <= 13 && subStr.length <= 36) {
+  if(subStr === "0"){
+    numbers[0] = "0"
+  }
   subStr += ".";
   numbers[numbers.length - 1] += ".";
   mainStr = numbers[numbers.length - 1];
