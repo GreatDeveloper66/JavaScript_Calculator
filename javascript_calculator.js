@@ -189,8 +189,9 @@ var closingBracket = function() {
 };
 
 var equals = function() {
-  numbers = mainStr = subStr = eval(subStr.replace("X","*")).toString();
-  if(mainStr.length > 36) {
+  numbers = [];
+  numbers[0] = mainStr = subStr = eval(subStr.replace("X","*")).toString();
+  if(mainStr.length > 35) {
   	mainStr = subSt = "E";
   }
   display(mainStr, subStr);
