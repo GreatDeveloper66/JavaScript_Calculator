@@ -3,6 +3,15 @@ body {
   background-color: #d6d5d5;
 }
 
+footer {
+  margin: auto;
+  padding-top: 35px;
+}
+
+footer h5 {
+  text-align: center;
+}
+
  .w3-container .w3-light-grey {
   border-radius-top-left: 15px;
   border-radius-top-right: 15px;
