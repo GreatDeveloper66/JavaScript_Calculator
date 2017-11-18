@@ -82,13 +82,18 @@ display(mainStr,subStr);
 var period = function() {
 if(mainStr.length <= maxMainStr && subStr.length <= maxSubStr) {
   if(subStr === "0"){
-    numbers[0] = "0"
+    numbers[0] = mainStr = subStr = "0.";
   }
-  subStr += ".";
-  numbers[numbers.length - 1] += ".";
-  mainStr = numbers[numbers.length - 1];
+  else if(lastCharacterIsOperator()){
+    numbers.push("0.");
+    mainStr = "0.";
+    subStr +="0.";
+  }
+  else {
+    subStr += ".";
+    mainStr = numbers[numbers.length -1] += ".";
+  }
   display(mainStr, subStr);
- 
   }
 };
 
