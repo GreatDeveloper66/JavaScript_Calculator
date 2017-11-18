@@ -3,6 +3,9 @@ var mainStr = "0";
 var subStr = "0";
 var numbers = [];
 
+const maxMainStr = 13;
+const maxSubStr = 36;
+
 
 
 //this function finds first index in string containing opertor symbol except decimal point
@@ -38,8 +41,8 @@ var display = function(data1, data2) {
 //this function is an event handler for any numeral button
 var addNumeral = function(num) {
   if (
-    subStr.length <= 36 &&
-    (mainStr.length <= 13 || lastCharacterIsOperator())
+    subStr.length <= maxSubStr &&
+    (mainStr.length <= maxMainStr || lastCharacterIsOperator())
   ) {
     if (subStr === "0") {
       mainStr = subStr = num;
@@ -63,7 +66,7 @@ var addNumeral = function(num) {
 
 var addOperator = function(operator){
 
-if(subStr.length <= 36) {
+if(subStr.length <= maxSubStr) {
   if(mainStr === "0"){
     mainStr = numbers[0] = "0";
   } else{
@@ -77,7 +80,7 @@ display(mainStr,subStr);
 
 
 var period = function() {
-if(mainStr.length <= 13 && subStr.length <= 36) {
+if(mainStr.length <= maxMainStr && subStr.length <= maxSubStr) {
   if(subStr === "0"){
     numbers[0] = "0"
   }
@@ -191,9 +194,10 @@ var closingBracket = function() {
 var equals = function() {
   numbers = [];
   numbers[0] = mainStr = subStr = eval(subStr.replace("X","*")).toString();
-  if(mainStr.length > 35) {
-  	mainStr = subSt = "E";
+  if(mainStr.length >= maxMainStr) {
+  	mainStr = subStr = "-E-";
   }
+
   display(mainStr, subStr);
 };
 
