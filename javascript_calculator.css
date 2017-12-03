@@ -75,12 +75,14 @@ header h1 {
   height: 66%;
   width: 245px;
   padding: 3px;
+  font-family: Orbitron;
   font-size: 25px;
   overflow: hidden;
 }
 
 #subline {
   display: block;
+  font-family: Orbitron;
   height: 33%;
   width: 245px;
   padding: 3px;

@@ -3,8 +3,8 @@ var mainStr = "0";
 var subStr = "0";
 var numbers = [];
 
-const maxMainStr = 13;
-const maxSubStr = 36;
+const maxMainStr = 10;
+const maxSubStr = 26;
 
 
 
