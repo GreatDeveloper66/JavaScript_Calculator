@@ -198,9 +198,29 @@ var closingBracket = function() {
 
 var equals = function() {
   numbers = [];
-  numbers[0] = mainStr = subStr = eval(subStr.replace("X","*")).toString();
-  if(mainStr.length >= maxMainStr) {
-  	mainStr = subStr = "-E-";
+  var numtoDisplay = eval(subStr.replace("X", "*"));
+  //numbers[0] = mainStr = subStr = eval(subStr.replace("X","*")).toString();
+  if (numtoDisplay.toString().length >= maxMainStr) {
+    if (numtoDisplay < 999999999 && numtoDisplay > -99999999) {
+      numbers[0] = mainStr = subStr = numtoDisplay
+        .toString()
+        .substr(0, maxMainStr - 1);
+      if (mainStr.charAt(mainStr.length - 1) === ".") {
+        numbers[0] = mainStr = subStr = mainStr.substr(0, mainStr.length - 2);
+      }
+    } else {
+      var exponent = Math.log10(numtoDisplay);
+      numtoDisplay = numtoDisplay / Math.pow(10, exponent);
+      if (numtoDisplay.toString().length <= 2) {
+        numbers[0] = mainStr = subStr =
+          numtoDisplay.toString() + ".0X10^" + Math.floor(exponent).toString();
+      } else {
+        numbers[0] = mainStr = subStr =
+          numtoDisplay.toString().slice(0, 2) + ".0X10^" + Math.floor(exponent).toString();
+      }
+    }
+  } else {
+    numbers[0] = mainStr = subStr = numtoDisplay.toString();
   }
 
   display(mainStr, subStr);
